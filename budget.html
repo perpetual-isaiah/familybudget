@@ -9,70 +9,227 @@
   <link rel="stylesheet" href="dashboard.css">
 </head>
 <body>
-   <div class="container">
-      <aside>
-        <div class="top">
-          <div class="logo">
-            <h2><span id="logo1" class="material-symbols-sharp">diversity_3 </span><span class="danger">FAMBUDGET</span> </h2>
+  <div class="container">
+    <!-- Sidebar -->
+    <aside>
+      <div class="top">
+        <div class="logo">
+          <h2>
+            <span id="logo1" class="material-symbols-sharp">diversity_3</span>
+            <span class="danger">FAMBUDGET</span>
+          </h2>
+        </div>
+        <div class="close" id="close_btn">
+          <span class="material-symbols-sharp">close</span>
+        </div>
+      </div>
+
+      <div class="sidebar">
+        <a href="dashboard.html" class="sideoptions">
+          <span class="material-symbols-sharp">grid_view</span>
+          <h3>Main Page</h3>
+        </a>
+        <a href="family.html" class="sideoptions">
+          <span class="material-symbols-sharp">person_outline</span>
+          <h3>Family</h3>
+        </a>
+        <a href="analytics.html" class="sideoptions">
+          <span class="material-symbols-sharp">insights</span>
+          <h3>Analytics</h3>
+        </a>
+        <a href="budget.html" class="sideoptions">
+          <span class="material-symbols-sharp">receipt_long</span>
+          <h3>Budget</h3>
+        </a>
+        <a href="Approaching.html" class="sideoptions">
+          <span class="material-symbols-sharp">report_gmailerrorred</span>
+          <h3>Notifications</h3>
+        </a>
+        <a href="settings.html" class="sideoptions">
+          <span class="material-symbols-sharp">settings</span>
+          <h3>Settings</h3>
+        </a>
+        <a href="profile.html" class="sideoptions">
+          <span class="material-symbols-sharp">person</span>
+          <h3>Profile</h3>
+        </a>
+        <a href="#" onclick="confirmLogout(event)">
+          <span class="material-symbols-sharp">logout</span>
+          <h3>Logout</h3>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main>
+      <section>
+        <!-- Budget Management Section -->
+        <div class="budget-container">
+          <h1>Manage Your Budget</h1>
+
+          <!-- Display Existing Budgets -->
+          <div class="existing-budgets">
+            <h2>Your Budget Categories</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Monthly Limit</th>
+                  <th>Current Spending</th>
+                  <th>Reminder</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Groceries</td>
+                  <td>$500</td>
+                  <td>$320</td>
+                  <td>Threshold: 80% | Due Date: N/A</td>
+                  <td>
+                    <button>Edit</button>
+                    <button>Delete</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-          <div class="close" id="close_btn">
-           <span class="material-symbols-sharp">
-             close
-             </span>
+
+          <!-- Add New Budget Form -->
+          <div class="add-budget">
+            <h2>Add New Budget</h2>
+            <form action="add_budget.php" method="POST">
+              <div class="form-group">
+                <label for="category">Select Category:</label>
+                <select class="form-select" id="category" name="category" required>
+                  <option value="">Select Category</option>
+                  <option value="Rent">Rent</option>
+                  <option value="Grocery">Grocery</option>
+                  <option value="Entertainment">Entertainment</option>
+                  <option value="Education">Education</option>
+                  <option value="Bills">Bills</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="monthly_limit">Monthly Limit ($):</label>
+                <input type="number" id="monthly_limit" name="monthly_limit" required>
+              </div>
+
+              <div class="form-group">
+                <label for="reminder_enabled">Enable Reminder:</label>
+                <input type="checkbox" id="reminder_enabled" name="reminder_enabled" value="1">
+              </div>
+
+              <div class="form-group">
+                <label for="reminder_threshold">Reminder Threshold ($):</label>
+                <input type="number" id="reminder_threshold" name="reminder_threshold">
+              </div>
+
+              <div class="form-group">
+                <label for="reminder_date">Reminder Date:</label>
+                <input type="datetime-local" id="reminder_date" name="reminder_date">
+              </div>
+
+              <button type="submit">Add Budget</button>
+            </form>
+          </div>
+
+          <!-- Edit Budget Form (Hidden by default, can be triggered by "Edit" buttons) -->
+          <div class="edit-budget" style="display:none;">
+            <h2>Edit Budget</h2>
+            <form action="edit_budget.php" method="POST">
+              <input type="hidden" id="edit_budget_id" name="budget_id">
+
+              <label for="edit_category">Category:</label>
+              <input type="text" id="edit_category" name="category" required>
+
+              <label for="edit_monthly_limit">Monthly Limit ($):</label>
+              <input type="number" id="edit_monthly_limit" name="monthly_limit" required>
+
+              <label for="edit_reminder_enabled">Enable Reminder:</label>
+              <input type="checkbox" id="edit_reminder_enabled" name="reminder_enabled" value="1">
+
+              <label for="edit_reminder_threshold">Reminder Threshold ($):</label>
+              <input type="number" id="edit_reminder_threshold" name="reminder_threshold">
+
+              <label for="edit_reminder_date">Reminder Date:</label>
+              <input type="datetime-local" id="edit_reminder_date" name="reminder_date">
+
+              <button type="submit">Update Budget</button>
+            </form>
           </div>
         </div>
-           <div class="sidebar">
-            <a href="dashboard.html" class="sideoptions">
-              <span class="material-symbols-sharp">grid_view </span>
-              <h3>Main Page</h3>
-           </a>
-           <a href="family.html" class="sideoptions">
-              <span class="material-symbols-sharp">person_outline </span>
-              <h3>Family</h3>
-           </a>
-           <a href="analytics.html" class="sideoptions">
-              <span class="material-symbols-sharp">insights </span>
-              <h3>Analytics</h3>
-           </a>
-           <a href="budget.html" class="sideoptions">
-            <span class="material-symbols-sharp">receipt_long</span>
-            <h3>Budget</h3>
-         </a>
-           <a href="Approaching.html" class="sideoptions">
-            <span class="material-symbols-sharp">report_gmailerrorred </span>
-            <h3>Notifications</h3>
-         </a>
-           <a href="settings.html" class="sideoptions">
-              <span class="material-symbols-sharp">settings </span>
-              <h3>settings</h3>
-           </a>
-           <a href="profile.html" class="sideoptions">
-            <span class="material-symbols-sharp">person</span>
-            <h3>Profile</h3>
-           </a>
-          <a href="#" onclick="confirmLogout(event)">
-            <span class="material-symbols-sharp">logout</span>
-            <h3>Logout</h3>
-          </a>
-          
-          <script>
-            function confirmLogout(event) {
-              event.preventDefault(); // Prevent default action
-              if (confirm("Are you sure you want to log out?")) {
-                window.location.href = "logout.php"; // Redirect to logout.php
-              }
-            }
-          </script>
-          </div>
-      </aside>
-      
-      <main>
-        
-     </main>
+      </section>
+    </main>
 
-   <script>
-    
-   </script>
+  </div>
+
+  <!-- Logout Confirmation Script -->
+  <script>
+    function confirmLogout(event) {
+      event.preventDefault(); // Prevent default action
+      if (confirm("Are you sure you want to log out?")) {
+        window.location.href = "logout.php"; // Redirect to logout.php
+      }
+    }
+  </script>
+
+  <!-- JavaScript for theme and form submission -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const form = document.getElementById('budget-form');
+      const budgetTableBody = document.getElementById('budget-table-body');
+      const themeSelect = document.getElementById('theme');
+
+      // Apply stored theme
+      const storedTheme = localStorage.getItem('theme');
+      if (storedTheme) {
+        document.body.classList.add(storedTheme + '-theme');
+        themeSelect.value = storedTheme; // Set dropdown value to saved theme
+      }
+
+      // Listen for theme changes
+      themeSelect.addEventListener('change', function () {
+        const selectedTheme = this.value;
+        document.body.classList.remove('light-theme', 'dark-theme');
+        document.body.classList.add(selectedTheme.toLowerCase() + '-theme');
+        localStorage.setItem('theme', selectedTheme); // Store in localStorage
+      });
+
+      // Handle form submission
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const userId = document.getElementById('user_id').value;
+        const theme = document.getElementById('theme').value;
+        const monthlyLimit = document.getElementById('monthly_limit').value;
+        const dateCreated = document.getElementById('date_created').value;
+        const lastUpdated = document.getElementById('last_updated').value;
+        const savings = document.getElementById('savings').value;
+
+        // Create a new row for the budget table
+        const row = document.createElement('tr');
+
+        row.innerHTML = `
+          <td>1</td>
+          <td>${userId}</td>
+          <td>${theme}</td>
+          <td>$${monthlyLimit}</td>
+          <td>${dateCreated}</td>
+          <td>${lastUpdated}</td>
+          <td>$${savings}</td>
+        `;
+
+        // Add the row to the table
+        budgetTableBody.appendChild(row);
+
+        // Clear form fields
+        form.reset();
+      });
+    });
+  </script>
 
 </body>
 </html>
